@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Handoff Replay</title>
+  <style>
+    :root {
+      --bg: #08131f;
+      --panel: #102338;
+      --panel-soft: #142b45;
+      --line: #2c4867;
+      --text: #edf2f8;
+      --muted: #9ab2c9;
+      --accent: #80c7ff;
+      --warn: #ffc779;
+      --danger: #ff8f88;
+      --ok: #92d7a6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top right, rgba(74, 126, 184, 0.18), transparent 28%),
+        linear-gradient(180deg, #07111b 0%, #091726 100%);
+      color: var(--text);
+      font-family: "Segoe UI", Inter, sans-serif;
+    }
+    .page { max-width: 1420px; margin: 0 auto; padding: 56px 56px 64px; }
+    .frame {
+      border: 1px solid rgba(128, 199, 255, 0.15);
+      border-radius: 34px;
+      background: rgba(6, 15, 26, 0.74);
+      padding: 28px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+    }
+    .hero {
+      background: linear-gradient(160deg, rgba(16,35,56,0.98), rgba(10,24,39,0.96));
+      border: 1px solid rgba(128, 199, 255, 0.16);
+      border-radius: 28px;
+      padding: 34px;
+      margin-bottom: 24px;
+    }
+    .eyebrow {
+      color: #93c6ff;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      font-size: 13px;
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 64px;
+      line-height: 0.96;
+      font-family: Georgia, "Times New Roman", serif;
+      max-width: 980px;
+    }
+    .body {
+      margin: 0;
+      color: var(--muted);
+      font-size: 25px;
+      max-width: 980px;
+      line-height: 1.4;
+    }
+    .nav {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-bottom: 14px;
+    }
+    .pill {
+      border-radius: 999px;
+      padding: 10px 16px;
+      border: 1px solid rgba(128, 199, 255, 0.18);
+      background: rgba(20, 43, 69, 0.88);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .metrics {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-bottom: 24px;
+    }
+    .metric, .card {
+      border-radius: 22px;
+      background: rgba(17, 35, 56, 0.96);
+      border: 1px solid rgba(128, 199, 255, 0.14);
+      padding: 24px;
+    }
+    .metric .label, .card .label {
+      color: #87bfff;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 12px;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+    .metric .value {
+      font-size: 46px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    .metric .sub {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+    .grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
+      border-top: 1px solid rgba(128, 199, 255, 0.1);
+    }
+    .row:first-of-type { border-top: 0; padding-top: 0; }
+    .title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .copy, .small {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+    .lane {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      height: fit-content;
+    }
+    .lane.escalate { background: rgba(255, 143, 136, 0.14); color: var(--danger); }
+    .lane.watch { background: rgba(255, 199, 121, 0.14); color: var(--warn); }
+    .lane.clear { background: rgba(146, 215, 166, 0.14); color: var(--ok); }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font-size: 15px;
+      line-height: 1.55;
+      color: #d6e8ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="frame">
+      <div class="nav">
+        <div class="pill">Overview</div>
+        <div class="pill">Queue</div>
+        <div class="pill">Handoffs</div>
+        <div class="pill">API summary</div>
+      </div>
+      <section class="hero">
+        <div class="eyebrow">Handoff Replay</div>
+        <h1>Care quality breaks where teams stop seeing the same story.</h1>
+        <p class="body">Each handoff carries its own delay signature, risk context, and recommendation so the pathway stays explainable under pressure.</p>
+      </section>
+      <section class="grid">
+        <div class="card span-4">
+          <div class="label">critical handoff</div>
+          <div class="title">Patient North</div>
+          <div class="copy">Inpatient discharge to Cardiology clinic</div>
+          <div class="copy">Delay 28h · Cause: transport barrier and missed callback</div>
+          <div class="copy">Regulatory pressure: readmission exposure</div>
+        </div>
+        
+        <div class="card span-4">
+          <div class="label">high handoff</div>
+          <div class="title">Patient Summit</div>
+          <div class="copy">Primary care to Behavioral health intake</div>
+          <div class="copy">Delay 19h · Cause: intake packet incomplete</div>
+          <div class="copy">Regulatory pressure: care continuity gap</div>
+        </div>
+        
+        <div class="card span-4">
+          <div class="label">medium handoff</div>
+          <div class="title">Patient Harbor</div>
+          <div class="copy">PCP to Diabetes educator</div>
+          <div class="copy">Delay 12h · Cause: lab not confirmed</div>
+          <div class="copy">Regulatory pressure: care quality drift</div>
+        </div>
+        </section>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>API Summary</title>
+  <style>
+    :root {
+      --bg: #08131f;
+      --panel: #102338;
+      --panel-soft: #142b45;
+      --line: #2c4867;
+      --text: #edf2f8;
+      --muted: #9ab2c9;
+      --accent: #80c7ff;
+      --warn: #ffc779;
+      --danger: #ff8f88;
+      --ok: #92d7a6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top right, rgba(74, 126, 184, 0.18), transparent 28%),
+        linear-gradient(180deg, #07111b 0%, #091726 100%);
+      color: var(--text);
+      font-family: "Segoe UI", Inter, sans-serif;
+    }
+    .page { max-width: 1420px; margin: 0 auto; padding: 56px 56px 64px; }
+    .frame {
+      border: 1px solid rgba(128, 199, 255, 0.15);
+      border-radius: 34px;
+      background: rgba(6, 15, 26, 0.74);
+      padding: 28px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+    }
+    .hero {
+      background: linear-gradient(160deg, rgba(16,35,56,0.98), rgba(10,24,39,0.96));
+      border: 1px solid rgba(128, 199, 255, 0.16);
+      border-radius: 28px;
+      padding: 34px;
+      margin-bottom: 24px;
+    }
+    .eyebrow {
+      color: #93c6ff;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      font-size: 13px;
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 64px;
+      line-height: 0.96;
+      font-family: Georgia, "Times New Roman", serif;
+      max-width: 980px;
+    }
+    .body {
+      margin: 0;
+      color: var(--muted);
+      font-size: 25px;
+      max-width: 980px;
+      line-height: 1.4;
+    }
+    .nav {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-bottom: 14px;
+    }
+    .pill {
+      border-radius: 999px;
+      padding: 10px 16px;
+      border: 1px solid rgba(128, 199, 255, 0.18);
+      background: rgba(20, 43, 69, 0.88);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .metrics {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-bottom: 24px;
+    }
+    .metric, .card {
+      border-radius: 22px;
+      background: rgba(17, 35, 56, 0.96);
+      border: 1px solid rgba(128, 199, 255, 0.14);
+      padding: 24px;
+    }
+    .metric .label, .card .label {
+      color: #87bfff;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 12px;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+    .metric .value {
+      font-size: 46px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    .metric .sub {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+    .grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
+      border-top: 1px solid rgba(128, 199, 255, 0.1);
+    }
+    .row:first-of-type { border-top: 0; padding-top: 0; }
+    .title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .copy, .small {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+    .lane {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      height: fit-content;
+    }
+    .lane.escalate { background: rgba(255, 143, 136, 0.14); color: var(--danger); }
+    .lane.watch { background: rgba(255, 199, 121, 0.14); color: var(--warn); }
+    .lane.clear { background: rgba(146, 215, 166, 0.14); color: var(--ok); }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font-size: 15px;
+      line-height: 1.55;
+      color: #d6e8ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="frame">
+      <div class="nav">
+        <div class="pill">Overview</div>
+        <div class="pill">Queue</div>
+        <div class="pill">Handoffs</div>
+        <div class="pill">API summary</div>
+      </div>
+      <section class="hero">
+        <div class="eyebrow">API Summary</div>
+        <h1>The coordination layer can still speak cleanly to downstream systems.</h1>
+        <p class="body">The same pathway command center can feed intervention queues, care dashboards, and audit views without losing the patient story.</p>
+      </section>
+      <section class="card span-12"><div class="label">sample payload</div><pre>{'dashboard': {'patientCount': 4, 'criticalCount': 1, 'stalledCount': 2, 'handoffCount': 3, 'averageRiskScore': 65, 'averageDelayHours': 24.2, 'leadRecommendation': 'Shift same-day coordination capacity toward cardiology discharge follow-up and behavioral intake completion.'}, 'patients': [{'patientId': 'pt-1042', 'alias': 'Patient North', 'program': 'Cardiology Recovery', 'currentStage': 'Post-discharge medication reconciliation', 'ownerLane': 'RN care coordination', 'riskScore': 92, 'delayHours': 46, 'contactability': 'low', 'referralStatus': 'specialty follow-up missed', 'dischargeReadiness': 'released with unresolved transport barrier', 'lastTouchHoursAgo': 31, 'channelPlan': ['phone', 'family outreach', 'transport team'], 'barrierSignals': ['no-show follow-up', 'medication confusion', 'transport gap'], 'nextAction': 'Escalate same-day pharmacist review and arrange assisted transport for cardiology follow-up.', 'escalationState': 'critical', 'outcomeWindowHours': 8, 'lane': 'escalate', 'barrierCount': 3}, {'patientId': 'pt-2088', 'alias': 'Patient Harbor', 'program': 'Diabetes Care Management', 'currentStage': 'A1C follow-up scheduling', 'ownerLane': 'Population health outreach', 'riskScore': 58, 'delayHours': 18, 'contactability': 'medium', 'referralStatus': 'PCP aligned, educator pending', 'dischargeReadiness': 'stable outpatient', 'lastTouchHoursAgo': 14, 'channelPlan': ['sms', 'portal', 'phone'], 'barrierSignals': ['portal unread', 'lab pending'], 'nextAction': 'Trigger educator outreach and convert the next touch into a lab-confirmation call.', 'escalationState': 'watch', 'outcomeWindowHours': 24, 'lane': 'watch', 'barrierCount': 2}, {'patientId': 'pt-3110', 'alias': 'Patient Summit', 'program': 'Behavioral Health Navigation', 'currentStage': 'Therapy intake handoff', 'ownerLane': 'Behavioral health navigator', 'riskScore': 76, 'delayHours': 27, 'contactability': 'medium', 'referralStatus': 'intake packet incomplete', 'dischargeReadiness': 'community care transition open', 'lastTouchHoursAgo': 20, 'channelPlan': ['phone', 'caregiver call', 'social work'], 'barrierSignals': ['paperwork friction', 'caregiver uncertainty'], 'nextAction': 'Route a navigator-assisted intake completion call with caregiver present.', 'escalationState': 'high', 'outcomeWindowHours': 12, 'lane': 'watch', 'barrierCount': 2}], 'handoffs': [{'handoffId': 'hd-7001', 'patientId': 'pt-1042', 'fromLane': 'Inpatient discharge', 'toLane': 'Cardiology clinic', 'severity': 'critical', 'delayHours': 28, 'cause': 'transport barrier and missed callback', 'regulatoryRisk': 'readmission exposure', 'recommendedAction': 'supervisor escalation', 'patientAlias': 'Patient North', 'program': 'Cardiology Recovery', 'lane': 'escalate'}, {'handoffId': 'hd-7002', 'patientId': 'pt-3110', 'fromLane': 'Primary care', 'toLane': 'Behavioral health intake', 'severity': 'high', 'delayHours': 19, 'cause': 'intake packet incomplete', 'regulatoryRisk': 'care continuity gap', 'recommendedAction': 'navigator callback', 'patientAlias': 'Patient Summit', 'program': 'Behavioral Health Navigation', 'lane': 'watch'}, {'handoffId': 'hd-7003', 'patientId': 'pt-2088', 'fromLane': 'PCP', 'toLane': 'Diabetes educator', 'severity': 'medium', 'delayHours': 12, 'cause': 'lab not confirmed', 'regulatoryRisk': 'care quality drift', 'recommendedAction': 'lab outreach', 'patientAlias': 'Patient Harbor', 'program': 'Diabetes Care Management', 'lane': 'watch'}]}</pre></section>
+    </div>
+  </div>
+</body>
+</html>
