@@ -26,7 +26,7 @@ Care operations rarely fail because teams lack data. They fail because handoffs 
 ## Local run
 
 ```powershell
-Set-Location "C:\Users\chaus\dev\repos\care-pathway-command-center"
+cd care-pathway-command-center
 py -3.11 -m venv .venv
 .\.venv\Scripts\pip.exe install -r requirements.txt
 .\.venv\Scripts\python.exe -m app.main
